@@ -25,5 +25,13 @@ public:
 
     Vect3& operator=(double f);             // 每一个元素都等于一个数
     Vect3& operator=(const double *pf);     // 通过数组赋值向量
+
+    Vect3 operator*(double f) const;        // vector multiply scale
+    Vect3& operator*=(double f);			// vector multiply scale
+    Vect3 operator*(const Vect3 &v) const;  // vector cross multiplication
+    Vect3 operator/(double f) const;		// vector divide scale
+    Vect3 operator+(const Vect3 &v) const;	// vector addition
+    Vect3& operator+=(const Vect3 &v);	    // vector addition
+    friend Vect3 operator*(double f, const Vect3 &v);  // scale multiply vector
 };
 

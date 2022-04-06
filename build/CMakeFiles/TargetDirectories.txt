@@ -1,0 +1,3 @@
+/mnt/e/project/navboxcali/build/CMakeFiles/rebuild_cache.dir
+/mnt/e/project/navboxcali/build/CMakeFiles/navBoxCalib.dir
+/mnt/e/project/navboxcali/build/CMakeFiles/edit_cache.dir
