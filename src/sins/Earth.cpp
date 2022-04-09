@@ -11,6 +11,8 @@
 
 #include "Earth.h"
 
+extern const Vect3	O31;
+
 Earth::Earth(double a0, double f0, double g0)
 {
 	a = a0;	f = f0; wie = glv.wie; 
@@ -33,4 +35,10 @@ void Earth::Update(const Vect3 &pos, const Vect3 &vn)
     gn.z = -( glv.g0*(1+5.27094e-3*sl2)-3.086e-6*pos.z );
     gcc = pgn ? *pgn : gn;
 }
+
+Vect3 Earth::vn2dpos(const Vect3 &vn, double ts) const
+{
+	return Vect3(vn.y*f_RMh, vn.x*f_clRNh, vn.z)*ts;
+}
+
 

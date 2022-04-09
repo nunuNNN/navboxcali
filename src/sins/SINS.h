@@ -11,36 +11,40 @@
 
 #pragma once
 
-#include <cstdio>
+#include <iostream>
+
 #include "CMath.hpp"
 #include "Earth.h"
 #include "IMU.h"
+#include "typeReDefine.h"
+
+extern const Vect3	O31;
+extern const Quat  qI;
 
 class SINS
 {
 public:
     double ts, nts, tk;
-	double mvnt, mvnT, velMax, hgtMin, hgtMax, afabar;
-	int mvnk;
-	CEarth eth;
-	CIMU imu;
-	CQuat qnb;
-	CMat3 Cnb, Cnb0, Cbn, mvnCnb0, Kg, Ka;
-	CVect3 wib, fb, fn, an, anbar, web, webbar, wnb, att, vn, mvn, mvni, mvnmax, mvnmin, vb, pos, eb, db, Ka2, tauGyro, tauAcc, _betaGyro, _betaAcc;
-	CMat3 Maa, Mav, Map, Mva, Mvv, Mvp, Mpv, Mpp;	// for etm
-	CVect3 lvr, vnL, posL; 
-    CMat3 CW, MpvCnb;		// for lever arm
+	double velMax, hgtMin, hgtMax, afabar;
+
+	Quat qnb;
+	Mat3 Cnb, Cbn, Kg, Ka;
+	Vect3 eb, db, wib, web, wnb, fb, fn, an, anbar, webbar; 
+	Vect3 att, vn, vb, pos, Ka2, _betaGyro, _betaAcc;
+	Mat3 Maa, Mav, Map, Mva, Mvv, Mvp, Mpv, Mpp;	// for etm
+	Vect3 lvr, vnL, posL; 
+    Mat3 CW, MpvCnb;		// for lever arm
 	BOOL isOpenloop;
 
 public:
-	CEarth eth;
-	CIMU imu;
+	Earth eth;
+	IMU imu;
 
 public:
     SINS(const Vect3 &att0, const Vect3 &vn0=O31, const Vect3 &pos0=O31, double tk0=0.0);
     void Init(const Quat &qnb0=qI, const Vect3 &vn0=O31, const Vect3 &pos0=O31, double tk0=0.0);    // initialization using quat attitude, velocity & position
-	void Update(const CVect3 *pwm, const CVect3 *pvm, int nSamples, double ts);		// SINS update using Gyro&Acc samples
-    void lever(const CVect3 &dL=O31, CVect3 *ppos=NULL, CVect3* pvn=NULL);		// lever arm
+	void Update(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts);		// SINS update using Gyro&Acc samples
+    void lever(const Vect3 &dL=O31, Vect3 *ppos=NULL, Vect3* pvn=NULL);		// lever arm
     void etm(void);							// SINS error transform matrix coefficients
 
 };

@@ -13,6 +13,11 @@
 
 #include <cstdio>
 
+#include "Matrix3.h"
+#include "Quaternion.h"
+
+class Mat3;	class Quat;
+
 class Vect3
 {
 public:
@@ -25,13 +30,18 @@ public:
 
     Vect3& operator=(double f);             // 每一个元素都等于一个数
     Vect3& operator=(const double *pf);     // 通过数组赋值向量
-
+    Vect3 operator-(const Vect3 &v) const;	// vector subtraction
     Vect3 operator*(double f) const;        // vector multiply scale
     Vect3& operator*=(double f);			// vector multiply scale
     Vect3 operator*(const Vect3 &v) const;  // vector cross multiplication
     Vect3 operator/(double f) const;		// vector divide scale
     Vect3 operator+(const Vect3 &v) const;	// vector addition
     Vect3& operator+=(const Vect3 &v);	    // vector addition
-    friend Vect3 operator*(double f, const Vect3 &v);  // scale multiply vector
+
+    friend Vect3 operator*(double f, const Vect3 &v);       // scale multiply vector
+	friend Quat a2qua(double pitch, double roll, double yaw);	// Euler angles to quaternion
+	friend Quat a2qua(const Vect3 &att);        // Euler angles to quaternion
+    friend Quat rv2q(const Vect3 &rv);          // rotation vector to quaternion
+    friend Mat3 askew(const Vect3 &v);		    // askew matrix;
 };
 

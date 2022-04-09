@@ -14,6 +14,7 @@
 #include "CMath.hpp"
 #include "Glv.hpp"
 
+extern const Vect3	O31;
 const GLV   glv;
 
 class Earth
@@ -28,5 +29,6 @@ public:
 public:
 	Earth(double a0=glv.Re, double f0=glv.f, double g0=glv.g0);
 	void Update(const Vect3 &pos, const Vect3 &vn=O31);
+	Vect3 vn2dpos(const Vect3 &vn, double ts=1.0) const;
 };
 

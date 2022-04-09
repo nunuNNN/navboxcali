@@ -11,7 +11,28 @@
 #pragma once
 
 #include <cstdio>
+#include <cmath>
 
+#include "Vector3.h"
+#include "Quaternion.h"
+
+class Vect3;	class Quat;
+
+#ifndef PI
+#define PI		3.14159265358979
+#endif
+
+#ifndef EPS
+#define EPS		(2.220446049e-16)
+#endif
+
+
+int		sign(double val, double eps=EPS);
+double	range(double val, double minVal, double maxVal);
+double	atan2Ex(double y, double x);
+
+#define asinEx(x)		asin(range(x, -1.0, 1.0))
+#define acosEx(x)		acos(range(x, -1.0, 1.0))
 class Mat3 
 {
 public:
@@ -26,5 +47,9 @@ public:
 		  double yx, double yy, double yz,
 		  double zx, double zy, double zz );
 
+	Mat3 operator*(const Mat3 &m) const;	// matrix multiplication
+	Vect3 operator*(const Vect3 &v) const;	// vector cross multiplication
 
+	friend Mat3 operator~(const Mat3 &m);	// matrix transposition
+	friend Vect3 m2att(const Mat3 &Cnb);	// DCM to Euler angles 
 };

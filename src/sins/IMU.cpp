@@ -11,6 +11,8 @@
 
 #include "IMU.h"
 
+extern const Vect3	O31;
+
 IMU::IMU(void)
 {
 	preFirst = onePlusPre = true; 

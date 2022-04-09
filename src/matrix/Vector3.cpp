@@ -9,7 +9,9 @@
  * 
  */
 
-#include "CMath.hpp"
+#include <cmath>
+
+#include "Vector3.h"
 
 Vect3::Vect3(void)
 {
@@ -40,6 +42,11 @@ Vect3& Vect3::operator=(const double *pf)
 Vect3 Vect3::operator*(double f) const
 {
 	return Vect3(x*f, y*f, z*f);
+}
+
+Vect3 Vect3::operator-(const Vect3 &v) const
+{
+	return Vect3(this->x-v.x, this->y-v.y, this->z-v.z);
 }
 
 Vect3& Vect3::operator*=(double f)
@@ -73,4 +80,54 @@ Vect3 operator*(double f, const Vect3 &v)
 {
 	return Vect3(v.x*f, v.y*f, v.z*f);
 }
+
+Quat a2qua(double pitch, double roll, double yaw)
+{
+	pitch /= 2.0, roll /= 2.0, yaw /= 2.0;
+    double	sp = sin(pitch), sr = sin(roll), sy = sin(yaw), 
+			cp = cos(pitch), cr = cos(roll), cy = cos(yaw);
+	Quat qnb;
+    qnb.q0 = cp*cr*cy - sp*sr*sy;
+    qnb.q1 = sp*cr*cy - cp*sr*sy;
+    qnb.q2 = cp*sr*cy + sp*cr*sy;
+    qnb.q3 = cp*cr*sy + sp*sr*cy;
+	return qnb;
+}
+
+Quat a2qua(const Vect3 &att)
+{
+	return a2qua(att.x, att.y, att.z);
+}
+
+
+Quat rv2q(const Vect3 &rv)
+{
+#define F1	(   2 * 1)		// define: Fk=2^k*k! 
+#define F2	(F1*2 * 2)
+#define F3	(F2*2 * 3)
+#define F4	(F3*2 * 4)
+#define F5	(F4*2 * 5)
+	double n2 = rv.x*rv.x+rv.y*rv.y+rv.z*rv.z, c, f;
+	if(n2<(PI/180.0*PI/180.0))	// 0.017^2 
+	{
+		double n4=n2*n2;
+		c = 1.0 - n2*(1.0/F2) + n4*(1.0/F4);
+		f = 0.5 - n2*(1.0/F3) + n4*(1.0/F5);
+	}
+	else
+	{
+		double n_2 = sqrt(n2)/2.0;
+		c = cos(n_2);
+		f = sin(n_2)/n_2*0.5;
+	}
+	return Quat(c, f*rv.x, f*rv.y, f*rv.z);
+}
+
+Mat3 askew(const Vect3 &v)
+{
+	return Mat3(0,  -v.z, v.y, 
+				 v.z, 0.0,  -v.x,
+				-v.y, v.x, 0);
+}
+
 
