@@ -65,6 +65,12 @@ Mat3 operator~(const Mat3 &m)
 	return Mat3(m.e00,m.e10,m.e20, m.e01,m.e11,m.e21, m.e02,m.e12,m.e22);
 }
 
+Mat3 operator-(const Mat3 &m)
+{
+	return Mat3(-m.e00,-m.e01,-m.e02,-m.e10,-m.e11,-m.e12,-m.e20,-m.e21,-m.e22);
+}
+
+
 Vect3 m2att(const Mat3 &Cnb)
 {
 	Vect3 att;

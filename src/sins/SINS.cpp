@@ -18,6 +18,10 @@ SINS::SINS(const Vect3 &att0, const Vect3 &vn0, const Vect3 &pos0, double tk0)
 {
 	Init(a2qua(att0), vn0, pos0, tk0);
 }
+SINS::SINS(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk0)
+{
+	Init(qnb0, vn0, pos0, tk0);
+}
 
 void SINS::Init(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk0)
 {

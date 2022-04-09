@@ -52,4 +52,5 @@ public:
 
 	friend Mat3 operator~(const Mat3 &m);	// matrix transposition
 	friend Vect3 m2att(const Mat3 &Cnb);	// DCM to Euler angles 
+	friend Mat3 operator-(const Mat3 &m);					// minus
 };

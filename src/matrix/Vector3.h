@@ -37,11 +37,14 @@ public:
     Vect3 operator/(double f) const;		// vector divide scale
     Vect3 operator+(const Vect3 &v) const;	// vector addition
     Vect3& operator+=(const Vect3 &v);	    // vector addition
+    Vect3& operator-=(const Vect3 &v);	    // vector subtraction
 
-    friend Vect3 operator*(double f, const Vect3 &v);       // scale multiply vector
+    friend Vect3 operator*(double f, const Vect3 &v);   // scale multiply vector
+    friend Vect3 operator-(const Vect3 &v);           // minus
 	friend Quat a2qua(double pitch, double roll, double yaw);	// Euler angles to quaternion
 	friend Quat a2qua(const Vect3 &att);        // Euler angles to quaternion
     friend Quat rv2q(const Vect3 &rv);          // rotation vector to quaternion
     friend Mat3 askew(const Vect3 &v);		    // askew matrix;
+    friend double normInf(const Vect3 &v);		// vector inf-norm
 };
 

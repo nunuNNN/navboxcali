@@ -29,6 +29,7 @@ public:
 
 	Vect3 operator*(const Vect3 &v) const;	// quaternion multiply vector
 	Quat operator*(const Quat &quat) const;	// quaternion multiplication
+	Quat& operator-=(const Vect3 &phi);		// calculated quaternion delete misalign angles
 
 	friend Quat operator~(const Quat &q);	// quaternion conjugate
 	friend Mat3 q2mat(const Quat &qnb);		// attitude quaternion to DCM

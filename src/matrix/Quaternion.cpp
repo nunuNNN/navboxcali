@@ -51,6 +51,12 @@ Quat Quat::operator*(const Quat &quat) const
 	return qtmp;
 }
 
+Quat& Quat::operator-=(const Vect3 &phi)
+{
+	Quat qtmp = rv2q(phi);
+	return (*this=qtmp*(*this));
+}
+
 Quat operator~(const Quat &q)
 {
 	return Quat(q.q0,-q.q1,-q.q2,-q.q3);

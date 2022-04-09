@@ -13,14 +13,19 @@ include_directories(
 
 add_executable(navBoxCalib
     ${PROJECT_SOURCE_DIR}/src/main.cpp
+
     ${PROJECT_SOURCE_DIR}/src/matrix/Vector3.cpp
     ${PROJECT_SOURCE_DIR}/src/matrix/Matrix3.cpp
     ${PROJECT_SOURCE_DIR}/src/matrix/Quaternion.cpp
-    ${PROJECT_SOURCE_DIR}/src/matrix/Vector.cpp
     ${PROJECT_SOURCE_DIR}/src/matrix/Matrix.cpp
+
     ${PROJECT_SOURCE_DIR}/src/sins/Earth.cpp
     ${PROJECT_SOURCE_DIR}/src/sins/IMU.cpp
     ${PROJECT_SOURCE_DIR}/src/sins/SINS.cpp
+
+    ${PROJECT_SOURCE_DIR}/src/kalman/AVPInterp.cpp
+    ${PROJECT_SOURCE_DIR}/src/kalman/Kalman.cpp
+    ${PROJECT_SOURCE_DIR}/src/kalman/SGClbrt.cpp
 )
 
 target_link_libraries(navBoxCalib)

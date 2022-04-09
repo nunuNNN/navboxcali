@@ -76,10 +76,22 @@ Vect3& Vect3::operator+=(const Vect3 &v)
 	return *this;
 }
 
+Vect3& Vect3::operator-=(const Vect3 &v)
+{ 
+	x -= v.x, y -= v.y, z -= v.z;
+	return *this;
+}
+
 Vect3 operator*(double f, const Vect3 &v)
 {
 	return Vect3(v.x*f, v.y*f, v.z*f);
 }
+
+Vect3 operator-(const Vect3 &v)
+{
+	return Vect3(-v.x, -v.y, -v.z);
+}
+
 
 Quat a2qua(double pitch, double roll, double yaw)
 {
@@ -128,6 +140,15 @@ Mat3 askew(const Vect3 &v)
 	return Mat3(0,  -v.z, v.y, 
 				 v.z, 0.0,  -v.x,
 				-v.y, v.x, 0);
+}
+
+double normInf(const Vect3 &v)
+{
+	double x = v.x>0 ? v.x : -v.x,
+		   y = v.y>0 ? v.y : -v.y,
+		   z = v.z>0 ? v.z : -v.z;
+	if(x>y)	return x>z ? x : z;
+	else    return y>z ? y : z;
 }
 
 
