@@ -8,6 +8,9 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 
+#include "Vector.h"
+#include "Matrix.h"
+
 
 // global para
 #ifndef PI
