@@ -7,6 +7,8 @@ SET(CMAKE_BUILD_TYPE "Release")
 include_directories(
     ${PROJECT_SOURCE_DIR}/src/matrix
     ${PROJECT_SOURCE_DIR}/src/sins
+    ${PROJECT_SOURCE_DIR}/src/kalman
+    ${PROJECT_SOURCE_DIR}/src/IOfile
     ${PROJECT_SOURCE_DIR}/src
 )
 
@@ -26,6 +28,8 @@ add_executable(navBoxCalib
     ${PROJECT_SOURCE_DIR}/src/kalman/AVPInterp.cpp
     ${PROJECT_SOURCE_DIR}/src/kalman/Kalman.cpp
     ${PROJECT_SOURCE_DIR}/src/kalman/SGClbrt.cpp
+
+    ${PROJECT_SOURCE_DIR}/src/IOfile/IOfile.cpp
 )
 
 target_link_libraries(navBoxCalib)

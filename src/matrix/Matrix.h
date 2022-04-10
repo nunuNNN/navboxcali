@@ -73,6 +73,7 @@ public:
 	Vect operator*(const Vect &v) const;				// matrix multiply vector
 	Mat& operator++();									// 1.0 + diagonal
 
+	friend Vect diag(const Mat &m);					// diagonal of a matrix
 	friend void RowMul(Mat &m, const Mat &m0, const Mat &m1, int r); // m(r,:)=m0(r,:)*m1
 	friend void RowMulT(Mat &m, const Mat &m0, const Mat &m1, int r); // m(r,:)=m0(r,:)*m1'
 

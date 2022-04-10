@@ -45,7 +45,7 @@ void SINS::Init(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk
 	lvr = O31; an = anbar = webbar = O31;
 
 	Vect3 wib(0.0), fb=(~qnb)*Vect3(0,0,glv.g0);
-	isOpenloop = 0;
+	isOpenloop = isOutlever = 0;
 
 	Update(&wib, &fb, 1, 1.0); imu.preFirst = 1;
 

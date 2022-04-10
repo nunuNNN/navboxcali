@@ -14,3 +14,9 @@
 #ifndef BOOL
 typedef int		BOOL;
 #endif
+
+#ifndef BYTE
+typedef unsigned char BYTE;
+#endif
+
+#define PSINS_IO_FILE

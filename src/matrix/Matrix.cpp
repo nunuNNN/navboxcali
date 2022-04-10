@@ -227,6 +227,15 @@ Mat& Mat::operator++()
 	return *this;
 }
 
+Vect diag(const Mat &m)
+{
+	int row1 = m.row+1;
+	Vect vtmp(m.row,1);
+	double *p=vtmp.dd, *pEnd=&vtmp.dd[vtmp.row];
+	for(const double *p1=m.dd; p<pEnd; p++, p1+=row1)	*p = *p1;
+	return vtmp;
+}
+
 void RowMul(Mat &m, const Mat &m0, const Mat &m1, int r)
 {
 	// psinsassert(m0.clm==m1.row);

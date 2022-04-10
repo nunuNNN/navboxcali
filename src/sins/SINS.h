@@ -34,7 +34,7 @@ public:
 	Mat3 Maa, Mav, Map, Mva, Mvv, Mvp, Mpv, Mpp;	// for etm
 	Vect3 lvr, vnL, posL; 
     Mat3 CW, MpvCnb;		// for lever arm
-	BOOL isOpenloop;
+	BOOL isOpenloop, isOutlever;
 
 public:
 	Earth eth;
