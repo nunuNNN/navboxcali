@@ -142,6 +142,18 @@ Mat3 askew(const Vect3 &v)
 				-v.y, v.x, 0);
 }
 
+Mat3 a2mat(const Vect3 &att)
+{
+	double	si = sin(att.x), ci = cos(att.x),
+			sj = sin(att.y), cj = cos(att.y),
+			sk = sin(att.z), ck = cos(att.z);
+	Mat3 Cnb;
+	Cnb.e00 =  cj*ck - si*sj*sk;	Cnb.e01 =  -ci*sk;	Cnb.e02 = sj*ck + si*cj*sk;
+	Cnb.e10 =  cj*sk + si*sj*ck;	Cnb.e11 =  ci*ck;	Cnb.e12 = sj*sk - si*cj*ck;
+	Cnb.e20 = -ci*sj;				Cnb.e21 =  si;		Cnb.e22 = ci*cj;
+	return Cnb;
+}
+
 double normInf(const Vect3 &v)
 {
 	double x = v.x>0 ? v.x : -v.x,

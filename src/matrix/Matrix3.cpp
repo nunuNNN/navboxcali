@@ -40,6 +40,11 @@ Mat3::Mat3(double xx, double xy, double xz,
 	e00=xx,e01=xy,e02=xz; e10=yx,e11=yy,e12=yz; e20=zx,e21=zy,e22=zz;
 }
 
+Vect3 Mat3::operator*(const Vect3 &v) const
+{
+	return Vect3(e00*v.x+e01*v.y+e02*v.z,e10*v.x+e11*v.y+e12*v.z,e20*v.x+e21*v.y+e22*v.z);
+}
+
 Mat3 Mat3::operator*(const Mat3 &mat) const
 {
 	Mat3 mtmp;
@@ -55,9 +60,17 @@ Mat3 Mat3::operator*(const Mat3 &mat) const
 	return mtmp;
 }
 
-Vect3 Mat3::operator*(const Vect3 &v) const
+Mat3& Mat3::operator+=(const Mat3 &mat)
 {
-	return Vect3(e00*v.x+e01*v.y+e02*v.z,e10*v.x+e11*v.y+e12*v.z,e20*v.x+e21*v.y+e22*v.z);
+	this->e00 += mat.e00;  this->e01 += mat.e01;  this->e02 += mat.e02;  
+	this->e10 += mat.e10;  this->e11 += mat.e11;  this->e12 += mat.e12;  
+	this->e20 += mat.e20;  this->e21 += mat.e21;  this->e22 += mat.e22;  
+	return *this;
+}
+
+Mat3 operator*(double f, const Mat3 &m)
+{
+	return Mat3(m.e00*f,m.e01*f,m.e02*f, m.e10*f,m.e11*f,m.e12*f, m.e20*f,m.e21*f,m.e22*f);
 }
 
 Mat3 operator~(const Mat3 &m)

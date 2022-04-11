@@ -28,6 +28,7 @@ add_executable(navBoxCalib
     ${PROJECT_SOURCE_DIR}/src/kalman/AVPInterp.cpp
     ${PROJECT_SOURCE_DIR}/src/kalman/Kalman.cpp
     ${PROJECT_SOURCE_DIR}/src/kalman/SGClbrt.cpp
+    ${PROJECT_SOURCE_DIR}/src/kalman/SGOCalbrt.cpp
 
     ${PROJECT_SOURCE_DIR}/src/IOfile/IOfile.cpp
 )

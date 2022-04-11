@@ -82,6 +82,7 @@
 #define fUG3(X)			fXXX(X*UG)
 #define fUGPSHZ3(X)		fXXX(X*UGPSHZ)
 #define fPHI(EN,U)		fXXZU(EN,U,MIN)
+#define fKPP(dpch,dk,dyaw)	fXYZ(dpch*DEG,dk,dyaw*DEG)
 
 #define fdKG9(dkii,dkij)	(dkii)*PPM,(dkij)*SEC,(dkij)*SEC,(dkij)*SEC,(dkii)*PPM,(dkij)*SEC,(dkij)*SEC,(dkij)*SEC,(dkii)*PPM
 #define fdKA6(dkii,dkij)	(dkii)*PPM,(dkij)*SEC,(dkij)*SEC,(dkii)*PPM,(dkij)*SEC,(dkii)*PPM

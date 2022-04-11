@@ -49,8 +49,10 @@ public:
 
 	Mat3 operator*(const Mat3 &m) const;	// matrix multiplication
 	Vect3 operator*(const Vect3 &v) const;	// vector cross multiplication
+	Mat3& operator+=(const Mat3 &m);		// matrix +=
 
+	friend Mat3 operator*(double f, const Mat3 &m);	// scale multiply matrix
 	friend Mat3 operator~(const Mat3 &m);	// matrix transposition
 	friend Vect3 m2att(const Mat3 &Cnb);	// DCM to Euler angles 
-	friend Mat3 operator-(const Mat3 &m);					// minus
+	friend Mat3 operator-(const Mat3 &m);	// minus
 };
