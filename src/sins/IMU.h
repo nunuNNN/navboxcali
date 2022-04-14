@@ -15,6 +15,7 @@
 #include <cstdio>
 #include "CMath.hpp"
 
+#pragma pack(4)
 class IMU
 {
 public:
@@ -24,4 +25,5 @@ public:
     IMU(void);
     void Update(const Vect3 *pwm, const Vect3 *pvm);
 };
+#pragma pack()
 

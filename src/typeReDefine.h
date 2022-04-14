@@ -11,6 +11,7 @@
 
 #include <cstdio>
 
+#pragma pack(4)
 #ifndef BOOL
 typedef int		BOOL;
 #endif
@@ -20,3 +21,5 @@ typedef unsigned char BYTE;
 #endif
 
 #define PSINS_IO_FILE
+
+#pragma pack()

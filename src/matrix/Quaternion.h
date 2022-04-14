@@ -16,6 +16,7 @@
 #include "Matrix3.h"
 #include "Vector3.h"
 
+#pragma pack(4)
 class Vect3;	class Mat3;
 
 class Quat
@@ -34,3 +35,4 @@ public:
 	friend Quat operator~(const Quat &q);	// quaternion conjugate
 	friend Mat3 q2mat(const Quat &qnb);		// attitude quaternion to DCM
 };
+#pragma pack()

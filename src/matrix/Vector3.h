@@ -16,6 +16,7 @@
 #include "Matrix3.h"
 #include "Quaternion.h"
 
+#pragma pack(4)
 class Mat3;	class Quat;
 
 class Vect3
@@ -48,4 +49,4 @@ public:
     friend Mat3 a2mat(const Vect3 &att);		// Euler angles to DCM 
     friend double normInf(const Vect3 &v);		// vector inf-norm
 };
-
+#pragma pack()

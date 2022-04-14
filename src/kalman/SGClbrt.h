@@ -15,7 +15,7 @@
 #include "SINS.h"
 #include "Kalman.h"
 #include "AVPInterp.h"
-
+#pragma pack(4)
 double  diffYaw(double yaw, double yaw0);
 
 
@@ -23,13 +23,12 @@ class SGClbrt:public Kalman
 {
 public:
 	double meantdts, tdts, Pz0, innovation;
-	int iter, ifn, adptOKi, measRes, maxStep, curOutStep, maxOutStep;
+	int iter, ifn, adptOKi, measRes, maxStep;
 	Mat Fk, Pk1;
 	Vect Pxz, Qk, Kk, Hi;
 	Vect3 meanfn;
 
-	double posGNSSdelay, vnGNSSdelay, yawGNSSdelay, dtGNSSdelay, dyawGNSS, kfts, *gnsslost;
-	int yawHkRow;
+	double posGNSSdelay, vnGNSSdelay, yawGNSSdelay, dtGNSSdelay, dyawGNSS, kfts;
 	Vect3 lvGNSS;
 
 public:
@@ -38,7 +37,7 @@ public:
 
 public:
     SGClbrt(void);
-    SGClbrt(int nq0, int nr0, double ts, int yawHkRow0=6);
+    SGClbrt(int nq0, int nr0, double ts);
 
     void Init(const SINS &sins0);
 
@@ -53,5 +52,5 @@ public:
 	BOOL IsZero(const Vect3 &v, double eps=EPS);		// psinsassert if all elements are zeros
 
 };
-
+#pragma pack()
 

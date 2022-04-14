@@ -30,7 +30,7 @@ void Kalman::Init(int nq0, int nr0)
 	Hk = Mat(nr,nq,0.0);  Fading = Mat(nr,nq,1.0); zfdafa = 0.1;
 	Qt = Pmin = Xk = Vect(nq,0.0);  Xmax = Pmax = Vect(nq,INF);  Pset = Vect(nq,-INF);
 	Zk = Vect(nr,0.0);  Rt = Vect(nr,INF); rts = Vect(nr,1.0);  Zfd = Vect(nr,0.0); Zfd0 = Zmax = Vect(nr,INF);
-	RtTau = Rmax = Vect(nr,INF); measstop = measlost = Rmin = Rb = Rstop = Vect(nr,0.0); Rbeta = Vect(nr,1.0);
+	RtTau = Rmax = Vect(nr,INF); measstop = measlost = Rmin = Rb = Vect(nr,0.0); Rbeta = Vect(nr,1.0);
 	SetRmaxcount(5);
 	FBTau = FBMax = FBOne = FBOne1 = Vect(nq,INF); FBXk = FBTotal = Vect(nq,0.0);
 	kfcount = measflag = measflaglog = 0;  SetMeasMask(3,nr0);
@@ -61,11 +61,6 @@ void Kalman::SetMeasMask(int type, unsigned int mask)
 void Kalman::SetMeasStop(double stop, unsigned int meas)
 {
 	measstop.SetBit(meas, stop);
-}
-
-void Kalman::SetRadptStop(double stop, unsigned int meas)
-{
-	Rstop.SetBit(meas, stop);
 }
 
 int Kalman::RAdaptive(int i, double r, double Pr)
@@ -140,7 +135,7 @@ void Kalman::PmaxPminCheck(void)
 
 void Kalman::Feedback(int nnq, double fbts)
 {
-	double *pTau=FBTau.dd, *pTotal=FBTotal.dd, *pMax=FBMax.dd, *pOne=FBOne.dd, *pOne1=FBOne1.dd, *pXk=FBXk.dd, *p=Xk.dd;
+	double *pTau=FBTau.dd, *pMax=FBMax.dd, *pOne=FBOne.dd, *pOne1=FBOne1.dd, *pXk=FBXk.dd, *pTotal=FBTotal.dd, *p=Xk.dd;
 	for(int i=0; i<nq; i++, pTau++,pTotal++,pMax++,pOne++,pOne1++,pXk++,p++)
 	{
 		if(*pTau<INFp5)

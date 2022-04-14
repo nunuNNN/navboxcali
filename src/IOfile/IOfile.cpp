@@ -2,15 +2,6 @@
 
 
 //******************************  File Read or Write *********************************/
-char* time2fname(void)
-{
-	static char PSINSfname[32];
-	time_t tt;  time(&tt);
-	tm *Time = localtime(&tt);
-	strftime(PSINSfname, 32, "PSINS%Y%m%d_%H%M%S.bin", Time);
-	return PSINSfname;
-}
-
 char CFileRdWt::dirIn[256] = {0}, CFileRdWt::dirOut[256] = {0};
 
 void CFileRdWt::DirI(const char *dirI)  // set dirIN
@@ -72,6 +63,7 @@ void CFileRdWt::Init(const char *fname0, int columns0)
 	else if(columns<0)			// bin file read
 	{
 		rwf = fopen(fname, "rb");
+		std::cout << fname << std::endl;
 		if(rwf==NULL)           /*判断文件是否打开成功*/
 			printf("File open error\r\n");
 	}

@@ -13,6 +13,7 @@
 #include "typeReDefine.h"
 #include "SGClbrt.h"
 
+#pragma pack(4)
 class SGOClbrt:public SGClbrt
 {
 public:
@@ -31,3 +32,4 @@ public:
 	int Update(const Vect3 *pwm, const Vect3 *pvm, double dS, int nSamples, double ts, int nSteps=5); 
 
 };
+#pragma pack()

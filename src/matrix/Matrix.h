@@ -17,6 +17,7 @@
 
 #include "Vector3.h"
 
+#pragma pack(4)
 // Matrix Max Dimension define
 #define MMD		34
 #define MMD2	(MMD*MMD)
@@ -78,3 +79,4 @@ public:
 	friend void RowMulT(Mat &m, const Mat &m0, const Mat &m1, int r); // m(r,:)=m0(r,:)*m1'
 
 };
+#pragma pack()

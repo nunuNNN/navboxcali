@@ -16,6 +16,7 @@
 #include "Vector3.h"
 #include "Quaternion.h"
 
+#pragma pack(4)
 class Vect3;	class Quat;
 
 #ifndef PI
@@ -56,3 +57,4 @@ public:
 	friend Vect3 m2att(const Mat3 &Cnb);	// DCM to Euler angles 
 	friend Mat3 operator-(const Mat3 &m);	// minus
 };
+#pragma pack()

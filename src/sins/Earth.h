@@ -14,6 +14,7 @@
 #include "CMath.hpp"
 #include "Glv.hpp"
 
+#pragma pack(4)
 extern const Vect3	O31;
 const GLV   glv;
 
@@ -31,4 +32,5 @@ public:
 	void Update(const Vect3 &pos, const Vect3 &vn=O31);
 	Vect3 vn2dpos(const Vect3 &vn, double ts=1.0) const;
 };
+#pragma pack()
 

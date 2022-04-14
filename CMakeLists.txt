@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(navboxcalib)
 
-SET(CMAKE_BUILD_TYPE "Release")
+SET(CMAKE_BUILD_TYPE "debug")
 
 
 include_directories(

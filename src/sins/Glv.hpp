@@ -13,6 +13,7 @@
 #include <cstdio>
 #include "CMath.hpp"
 
+#pragma pack(4)
 class GLV
 {
 public:
@@ -49,5 +50,6 @@ public:
         secpsh = sec/sqrt(hur);
     }
 };
+#pragma pack()
 
 

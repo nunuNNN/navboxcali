@@ -21,7 +21,7 @@
 
 #include "Matrix.h"
 
-
+#pragma pack(4)
 // global para
 #ifndef PI
 #define PI		3.14159265358979
@@ -92,3 +92,5 @@
 const Vect3 O31(0.0);
 const Quat  qI(1.0,0.0,0.0,0.0);
 const Mat3  I33(1,0,0, 0,1,0, 0,0,1), O33(0,0,0, 0,0,0, 0,0,0), One33(1.0);
+
+#pragma pack()

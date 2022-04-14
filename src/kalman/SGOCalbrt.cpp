@@ -11,7 +11,7 @@
 
 #include "SGOClbrt.h"
 
-SGOClbrt::SGOClbrt(double ts):SGClbrt(26, 10, ts, 9)
+SGOClbrt::SGOClbrt(double ts):SGClbrt(26, 10, ts)
 {
     odmeast = 0.0;  odmeasT = 1.0;
     dS0 = 0.0;  distance = 0.0;
@@ -22,7 +22,7 @@ SGOClbrt::SGOClbrt(double ts):SGClbrt(26, 10, ts, 9)
 	// 0-14: phi,dvn,dpos,eb,db; 15-17: lvGNSS; 18-20: Kappa; 21-23: lvOD; 24: dtGNSS; 25: dyawGNSS
 	// Hk(0:5,:) ...								// 0-5: SINS/GNSS-dvn,dpos
 	Hk.SetMat3(6, 3, I33);							// 6-8: SINS/OD-dvn
-	Hk(yawHkRow,2) = 1.0; Hk(yawHkRow,25) = -1.0; 	// 9: SINS/GNSS-dyaw
+	Hk(6,2) = 1.0; Hk(6,25) = -1.0; 	// 9: SINS/GNSS-dyaw
 	SetMeasMask(1, 01777);
 }
 

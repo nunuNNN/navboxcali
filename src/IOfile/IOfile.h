@@ -13,6 +13,7 @@
 
 #pragma pack(4)
 
+
 class CFileRdWt
 {
 	static char dirIn[256], dirOut[256];
@@ -57,8 +58,6 @@ public:
 	CFileRdWt& operator>>(Vect &v);
 	CFileRdWt& operator>>(Mat &m);
 #endif // PSINS_IO_FILE
-
-	friend char* time2fname(void);
 };
 
 

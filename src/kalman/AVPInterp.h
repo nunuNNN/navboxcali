@@ -15,6 +15,7 @@
 #include "typeReDefine.h"
 #include "SINS.h"
 
+#pragma pack(4)
 class AVPInterp
 {
 #define AVPINUM 50
@@ -30,4 +31,4 @@ public:
 	void Push(const Vect3 &attk, const Vect3 &vnk=O31, const Vect3 &posk=O31);
 	int Interp(double tpast, int avp=0x7);	// AVP interpolation, where -AVPINUM*ts<=tpast<=0
 };
-
+#pragma pack()

@@ -18,6 +18,7 @@
 #include "IMU.h"
 #include "typeReDefine.h"
 
+#pragma pack(4)
 extern const Vect3	O31;
 extern const Quat  qI;
 
@@ -49,5 +50,6 @@ public:
     void etm(void);							// SINS error transform matrix coefficients
 
 };
+#pragma pack()
 
 

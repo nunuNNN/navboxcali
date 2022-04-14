@@ -24,16 +24,16 @@ SGClbrt::SGClbrt(void)
 {
 }
 
-SGClbrt::SGClbrt(int nq0, int nr0, double ts, int yawHkRow0)
+SGClbrt::SGClbrt(int nq0, int nr0, double ts)
 {
     Kalman::Init(nq0, nr0);
 	posGNSSdelay = vnGNSSdelay = yawGNSSdelay = dtGNSSdelay = dyawGNSS = -0.0;
-	kfts = ts;  gnsslost = &measlost.dd[3];
+	kfts = ts;
 	lvGNSS = O31;
+	// 0-14: phi,dvn,dpos,eb,db; 15-17: lvGNSS; 18: dtGNSS;
 	Hk(0,3) = Hk(1,4) = Hk(2,5) = 1.0;		// dvn
 	Hk(3,6) = Hk(4,7) = Hk(5,8) = 1.0;		// dpos
-	yawHkRow = yawHkRow0;
-	if(yawHkRow>=6) Hk(yawHkRow,2) = 1.0;	// dyaw
+	Hk(6,2) = 1.0;							// dyaw
 	SetMeasMask(1, 077);
 	SetMeasStop(1.0);
 }
@@ -43,10 +43,10 @@ void SGClbrt::Init(const SINS &sins0)
 	sins = sins0;  kftk = sins.tk;
     Fk = Pk1 = Mat(nq,nq, 0.0);
     Pxz = Qk = Kk = Vect(nr, 0.0);
-    meantdts = 1.0; tdts = 0.0;
+    meantdts = 1.0; tdts = 0.0; // 分片kalman的预测时间间隔。建议10ms
+	iter = -2;  ifn = 0;
     maxStep = 2*(nq+nr)+3;
-    iter = -2;  ifn = 0;	meanfn = O31;
-    curOutStep = 0; maxOutStep = 1;
+	meanfn = O31;
     SetMeasFlag(0);
 
 	sins.lever(-lvGNSS);  sins.pos = sins.posL;    // sins0.pos is GNSS pos
@@ -120,19 +120,17 @@ void SGClbrt::SetMeasGNSS(const Vect3 &posgnss, const Vect3 &vngnss, double yawg
 	}
 	if(!IsZero(yawgnss) && avpi.Interp(yawGNSSdelay+dtGNSSdelay,0x1))
 	{
-		Zk.dd[yawHkRow] = -diffYaw(avpi.att.z, yawgnss+dyawGNSS);
-		SetMeasFlag(01<<yawHkRow);
+		Zk.dd[6] = -diffYaw(avpi.att.z, yawgnss+dyawGNSS);
+		SetMeasFlag(00100);
 	}
 }
 
 int SGClbrt::TDUpdate(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts, int nStep)
 {
 	sins.Update(pwm, pvm, nSamples, ts);
-	if(++curOutStep>=maxOutStep) { curOutStep=0; }
 	Feedback(nq, sins.nts);
 	for(int j=0; j<nr; j++) {
 		measlost.dd[j] += sins.nts;
-		if(Rstop.dd[j]>0.0) Rstop.dd[j] -= sins.nts;
 		if(measstop.dd[j]>0.0) measstop.dd[j] -= sins.nts;
 	}
 
@@ -185,7 +183,7 @@ int SGClbrt::TDUpdate(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double t
 					Pz0 = (Hi*Pxz)(0,0);
 					innovation = Zk(row)-(Hi*Xk)(0,0);
 					adptOKi = 1;
-					if(Rb.dd[row]>EPS && Rstop.dd[row]<EPS)
+					if(Rb.dd[row]>EPS)
 						adptOKi=RAdaptive(row, innovation, Pz0);
 					double Pzz = Pz0 + Rt(row)/rts(row);
 					Kk = Pxz*(1.0/Pzz);
@@ -206,7 +204,7 @@ int SGClbrt::TDUpdate(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double t
 			{
 				nStep++;
 			}
-			if(iter%2==0 && Rstop.dd[row]<EPS)
+			if(iter%2==0)
 				RtFading(row, meantdts);
 		}
 		else if(iter==2*(nq+nr))	// 2*(nq+nr): Xk,Pk constrain & symmetry
