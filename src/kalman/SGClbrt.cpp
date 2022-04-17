@@ -106,15 +106,21 @@ void SGClbrt::Feedback(int nnq, double fbts)
 	}
 }
 
-void SGClbrt::SetMeasGNSS(const Vect3 &posgnss, const Vect3 &vngnss, double yawgnss, double qfactor)
+void SGClbrt::SetMeasGNSS(const Vect3 &posgnss, const double &vbgnss, double yawgnss, double qfactor)
 {
 	if(!IsZero(posgnss) && avpi.Interp(posGNSSdelay+dtGNSSdelay,0x4))
 	{
 		*(Vect3*)&Zk.dd[3] = avpi.pos - posgnss;
 		SetMeasFlag(00070);
 	}
-	if(!IsZero(vngnss) && avpi.Interp(vnGNSSdelay+dtGNSSdelay,0x2))
+	if(!(vbgnss<EPS&&vbgnss>-EPS) && avpi.Interp(vnGNSSdelay+dtGNSSdelay,0x2))
 	{
+		Vect3 vngnss;
+		Mat3 Cnb = a2mat(avpi.att);
+		vngnss.x = Cnb.e01*vbgnss;
+		vngnss.y = Cnb.e11*vbgnss;
+		vngnss.z = Cnb.e21*vbgnss;
+
 		*(Vect3*)&Zk.dd[0] = avpi.vn - vngnss;
 		SetMeasFlag(00007);
 	}

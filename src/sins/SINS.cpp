@@ -14,16 +14,16 @@
 extern const Vect3	O31;
 extern const Mat3	I33, O33, One33;
 
-SINS::SINS(const Vect3 &att0, const Vect3 &vn0, const Vect3 &pos0, double tk0)
+SINS::SINS(const Vect3 &att0, const double &vn0, const Vect3 &pos0, double tk0)
 {
 	Init(a2qua(att0), vn0, pos0, tk0);
 }
-SINS::SINS(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk0)
+SINS::SINS(const Quat &qnb0, const double &vn0, const Vect3 &pos0, double tk0)
 {
 	Init(qnb0, vn0, pos0, tk0);
 }
 
-void SINS::Init(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk0)
+void SINS::Init(const Quat &qnb0, const double &vn0, const Vect3 &pos0, double tk0)
 {
 	tk = tk0;  ts = nts = 1.0;
 
@@ -31,9 +31,12 @@ void SINS::Init(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk
 	hgtMin = -RE*0.01, 
 	hgtMax = -hgtMin; 
 	afabar = 0.1;
-
-	qnb = qnb0;	
-	vn = vn0, 
+	qnb = qnb0;
+	Cnb = q2mat(qnb);
+	vnInit.x = Cnb.e01*vn0;
+	vnInit.y = Cnb.e11*vn0;
+	vnInit.z = Cnb.e21*vn0;
+	vn = vnInit;
 	pos = pos0;
 	Cbn = I33;
 
@@ -50,7 +53,7 @@ void SINS::Init(const Quat &qnb0, const Vect3 &vn0, const Vect3 &pos0, double tk
 	Update(&wib, &fb, 1, 1.0); imu.preFirst = 1;
 
 	tk = tk0;  ts = nts = 1.0; 
-	qnb = qnb0;	vn = vn0, pos = pos0;
+	qnb = qnb0;	vn = vnInit, pos = pos0;
 	
 	etm(); lever();
 }

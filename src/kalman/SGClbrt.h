@@ -45,7 +45,7 @@ public:
 	virtual void SetHk(int nnq);
 	virtual void Feedback(int nnq, double fbts);
 	virtual void SetMeas(void) {};
-	void SetMeasGNSS(const Vect3 &posgnss=O31, const Vect3 &vngnss=O31, double yawgnss=0.0, double qfactor=1.0);
+	void SetMeasGNSS(const Vect3 &posgnss=O31, const double &vbgnss=0, double yawgnss=0.0, double qfactor=1.0);
 	int TDUpdate(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts, int nStep=1);  // Time-Distributed Update
 	int Update(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts, int nSteps=5); 
 
