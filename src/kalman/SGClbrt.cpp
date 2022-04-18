@@ -110,7 +110,17 @@ void SGClbrt::SetMeasGNSS(const Vect3 &posgnss, const double &vbgnss, double yaw
 {
 	if(!IsZero(posgnss) && avpi.Interp(posGNSSdelay+dtGNSSdelay,0x4))
 	{
+		 
 		*(Vect3*)&Zk.dd[3] = avpi.pos - posgnss;
+
+		std::cout << avpi.pos.x << ", "
+				<< avpi.pos.y << ", "
+				<< avpi.pos.z << ", "
+				<< posgnss.x << ", "
+				<< posgnss.y << ", "
+				<< posgnss.z << ", "
+				<< std::endl;
+
 		SetMeasFlag(00070);
 	}
 	if(!(vbgnss<EPS&&vbgnss>-EPS) && avpi.Interp(vnGNSSdelay+dtGNSSdelay,0x2))
@@ -133,7 +143,12 @@ void SGClbrt::SetMeasGNSS(const Vect3 &posgnss, const double &vbgnss, double yaw
 
 int SGClbrt::TDUpdate(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts, int nStep)
 {
+	// std::cout << "sins update : " << pwm->x << ", "  << pwm->y << ", "  
+	// 			<< pwm->z << ", " << pvm->x << ", " << pvm->y << ", " 
+	// 			<< pvm->z << ", " << ts << std::endl;
+
 	sins.Update(pwm, pvm, nSamples, ts);
+
 	Feedback(nq, sins.nts);
 	for(int j=0; j<nr; j++) {
 		measlost.dd[j] += sins.nts;
