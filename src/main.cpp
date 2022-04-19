@@ -40,21 +40,39 @@ int main(void)
         std::cerr << "Failed to open file! " << data_path << std::endl;
         return -1;
     }
-
+	
 	std::string sImuGps_line;
 	Vect3 wm, vm, pGNSS;
 	double vGNSS, hGNSS;
 	double ts = 0.01, t, dt;
-	SGClbrt kf(19, 6, ts);
+	SGClbrt kf(18, 7, ts);
+	int imu_count=0, gps_count=0;
+	Vect3 sum_wm, sum_vm;
     while (std::getline(fsImuGps, sImuGps_line) && !sImuGps_line.empty()) // read imu data
     {
         std::istringstream ssImuData(sImuGps_line);
         ssImuData >> wm.x >> wm.y >> wm.z >> vm.x >> vm.y >> vm.z 
 				>> t >> vGNSS >> pGNSS.x >> pGNSS.y >> pGNSS.z >> hGNSS >> dt;
 
-		if(!IsZero(pGNSS))
+		imu_count++;
+		if(!IsZero(pGNSS)) gps_count++;
+		sum_wm+=(wm/ts); sum_vm+=(vm/ts);
+
+		if(gps_count==10)	// 1s中数据
 		{
-			kf.Init(SINS(Vect3(0,0,67)*glv.deg, vGNSS, pGNSS, t));
+			// 系统姿态、速度、位置、bias初始化
+			std::cout << "sins init : " << sum_wm.x << ", "  << sum_wm.y << ", "  
+					<< sum_wm.z << ", " << sum_vm.x << ", " << sum_vm.y << ", " 
+					<< sum_vm.z << ", " << imu_count <<std::endl;
+
+			Vect3 g_bias = sum_wm/imu_count;
+			Vect3 gravity_imu = sum_vm/imu_count;
+			double gravity_norm = norm(gravity_imu);
+			gravity_imu /= gravity_norm;
+			double roll = -asin(gravity_imu.y);
+			double pitch = atan2(gravity_imu.x, gravity_imu.z);
+
+			kf.Init(SINS(Vect3(0,0,hGNSS)*glv.deg, vGNSS, pGNSS, t));
 			kf.Pk.SetDiag2(fPHI(60,600),  fXXX(1.0),  fdPOS(100.0),  fDPH3(1000),  fMG3(10.0),
 					fXXX(1.0),  0.01,  fdKG9(100.0,90.0), fdKA6(10.0,10.0));
 			kf.Pmax = INF;
@@ -70,34 +88,25 @@ int main(void)
 		}
     }
 
-	int i=0;
     while (std::getline(fsImuGps, sImuGps_line) && !sImuGps_line.empty()) // read imu data
     {
-		i++;
         std::istringstream ssImuData(sImuGps_line);
         ssImuData >> wm.x >> wm.y >> wm.z >> vm.x >> vm.y >> vm.z 
 				>> t >> vGNSS >> pGNSS.x >> pGNSS.y >> pGNSS.z >> hGNSS >> dt;
-        std::cout << wm.x << ", "  << wm.y << ", "  << wm.z << ", " 
-					<< vm.x << ", " << vm.y << ", " << vm.z << ", " 
-					<< t << ", "  << vGNSS << ", " 
-					<< pGNSS.x << ", "  << pGNSS.y << ", " << pGNSS.z << ", " 
-					<< hGNSS << ", "  << dt << std::endl;
+        // std::cout << wm.x << ", "  << wm.y << ", "  << wm.z << ", " 
+		// 			<< vm.x << ", " << vm.y << ", " << vm.z << ", " 
+		// 			<< t << ", "  << vGNSS << ", " 
+		// 			<< pGNSS.x << ", "  << pGNSS.y << ", " << pGNSS.z << ", " 
+		// 			<< hGNSS << ", "  << dt << std::endl;
 
 		kf.Update(&wm, &vm, 1, ts);
 		if(pGNSS.x>0.1)
-			kf.SetMeasGNSS(pGNSS, vGNSS);
+			kf.SetMeasGNSS(pGNSS, vGNSS, hGNSS);
 
-		if(i%20==0 || pGNSS.x>0.1)
-			fins<<kf.sins<<vGNSS<<pGNSS;
-		if(i%20==0) fkf<<kf;
-		disp(i, 100, 100);
 
-        usleep(1000 * 500);
+        usleep(1000 * 10);
     }
 
     fsImuGps.close();
 
 }
-
-
-

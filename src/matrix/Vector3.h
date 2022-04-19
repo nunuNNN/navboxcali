@@ -48,5 +48,6 @@ public:
     friend Mat3 askew(const Vect3 &v);		    // askew matrix;
     friend Mat3 a2mat(const Vect3 &att);		// Euler angles to DCM 
     friend double normInf(const Vect3 &v);		// vector inf-norm
+    friend double norm(const Vect3 &v);					// vector norm
 };
 #pragma pack()

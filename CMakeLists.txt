@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(navboxcalib)
 
-SET(CMAKE_BUILD_TYPE "debug")
-
+#使用release编译存在段错误
+SET(CMAKE_BUILD_TYPE "release")
+# SET(CMAKE_BUILD_TYPE "Debug")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/src/matrix

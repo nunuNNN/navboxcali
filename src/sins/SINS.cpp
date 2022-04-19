@@ -76,9 +76,8 @@ void SINS::Update(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts)
 	an = fn+eth.gcc;  anbar = (1-afabar)*anbar + afabar*an;
 	Vect3 vn1 = vn + an*nts;
 	pos = pos + eth.vn2dpos(vn+vn1, nts2);	vn = vn1;
-	qnb = qnb*rv2q(imu.phim);
+	qnb = qnb*rv2q(imu.phim); 
 	Cnb = q2mat(qnb); att = m2att(Cnb); Cbn = ~Cnb; vb = Cbn*vn;
-
 
 	if(vn.x>velMax) vn.x=velMax; else if(vn.x<-velMax) vn.x=-velMax;
 	if(vn.y>velMax) vn.y=velMax; else if(vn.y<-velMax) vn.y=-velMax;
@@ -87,7 +86,6 @@ void SINS::Update(const Vect3 *pwm, const Vect3 *pvm, int nSamples, double ts)
 	if(pos.x>89.9*DEG) pos.x=89.9*DEG; else if(pos.x<-89.9*DEG) pos.x=-89.9*DEG;
 	if(pos.y>PI) pos.y-=_2PI; else if(pos.y<-PI) pos.y+=_2PI;
 	if(pos.z>hgtMax) pos.z=hgtMax; else if(pos.z<hgtMin) pos.z=hgtMin;
-
 }
 
 void SINS::lever(const Vect3 &dL, Vect3 *ppos, Vect3 *pvn)

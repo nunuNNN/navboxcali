@@ -113,13 +113,13 @@ void SGClbrt::SetMeasGNSS(const Vect3 &posgnss, const double &vbgnss, double yaw
 		 
 		*(Vect3*)&Zk.dd[3] = avpi.pos - posgnss;
 
-		std::cout << avpi.pos.x << ", "
-				<< avpi.pos.y << ", "
-				<< avpi.pos.z << ", "
-				<< posgnss.x << ", "
-				<< posgnss.y << ", "
-				<< posgnss.z << ", "
-				<< std::endl;
+		std::cout << std::fixed   << avpi.pos.x << ", "
+					<< std::fixed  << avpi.pos.y << ", "
+					<< std::fixed  << avpi.pos.z << ", "
+					<< std::fixed  << posgnss.x << ", "
+					<< std::fixed  << posgnss.y << ", "
+					<< std::fixed  << posgnss.z
+					<< std::endl;
 
 		SetMeasFlag(00070);
 	}

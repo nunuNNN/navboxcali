@@ -26,7 +26,7 @@ void Kalman::Init(int nq0, int nr0)
 {
 	kftk = 0.0;
 	nq = nq0; nr = nr0;
-	Ft = Pk = Mat(nq,nq,0.0);
+	Ft = Pk = Mat(nq,nq,0.0);	
 	Hk = Mat(nr,nq,0.0);  Fading = Mat(nr,nq,1.0); zfdafa = 0.1;
 	Qt = Pmin = Xk = Vect(nq,0.0);  Xmax = Pmax = Vect(nq,INF);  Pset = Vect(nq,-INF);
 	Zk = Vect(nr,0.0);  Rt = Vect(nr,INF); rts = Vect(nr,1.0);  Zfd = Vect(nr,0.0); Zfd0 = Zmax = Vect(nr,INF);

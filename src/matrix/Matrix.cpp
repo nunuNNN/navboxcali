@@ -63,14 +63,17 @@ void Vect::SetBit(unsigned int bit, double f)
 Vect Vect::operator*(double f) const
 {
 	Vect vtmp(row,clm);
-	const double *p1=dd,*p1End=&dd[rc];
-	for(double *p=vtmp.dd; p1<p1End; p++,p1++)  { *p=*p1*f; }
+	// const double *p1=dd,*p1End=&dd[rc];
+	// for(double *p=vtmp.dd; p1<p1End; p++,p1++)  { *p=*p1*f; }
+	for(int i=0; i<rc; i++) vtmp.dd[i] = this->dd[i] * f;
+
 	return vtmp;
 }
 
 Vect& Vect::operator=(double f)
 {
-	for(double *p=dd, *pEnd=&dd[rc]; p<pEnd; p++) { *p = f; }
+	// for(double *p=dd, *pEnd=&dd[rc]; p<pEnd; p++) { *p = f; }
+	for(int i=0; i<rc; i++) dd[i] = f;
 	return *this;
 }
 
@@ -78,7 +81,8 @@ Vect& Vect::operator+=(const Vect &v)
 {
 	// psinsassert(row==v.row&&clm==v.clm);
 	const double *p1 = v.dd;
-	for(double *p=dd, *pEnd=&dd[rc]; p<pEnd; p++,p1++)  { *p += *p1; }
+	// for(double *p=dd, *pEnd=&dd[rc]; p<pEnd; p++,p1++)  { *p += *p1; }
+	for(int i=0; i<rc;i++) this->dd[i] += v.dd[i];
 	return *this;
 }
 
@@ -95,7 +99,7 @@ Mat Vect::operator*(const Vect &v) const
 	}
 	else    // (nxn) = (nx1)*(1xn)
 	{
-		double *p=mtmp.dd;
+		volatile double *p=mtmp.dd;
 		for(const double *p1=&dd[0],*p1End=&dd[rc],*p2End=&v.dd[rc]; p1<p1End; p1++)
 		{
 			for(const double *p2=&v.dd[0]; p2<p2End; p2++)  {*p++ = *p1 * *p2;}
@@ -117,6 +121,11 @@ Vect operator~(const Vect &v)
 }
 
 
+
+
+
+
+
 Mat::Mat(void)
 {
 }
@@ -129,7 +138,9 @@ Mat::Mat(int row0, int clm0)
 Mat::Mat(int row0, int clm0, double f)
 {
 	row=row0; clm=clm0; rc=row*clm;
-	for(double *pd=dd, *pEnd=&dd[rc]; pd<pEnd; pd++)  *pd = f;
+
+	for(int i=0; i<rc; i++) dd[i] = f;
+	// for(volatile double *pd=dd, *pEnd=&dd[rc]; pd<pEnd; pd++)  *pd = f;
 }
 
 Mat::Mat(int row0, int clm0, const double *pf)
@@ -200,9 +211,10 @@ Mat& Mat::operator-=(const Mat &m0)
 Mat Mat::operator*(double f) const
 {
 	Mat mtmp(row,clm);
-	double *p=mtmp.dd, *pEnd=&mtmp.dd[rc]; const double *p1=this->dd;
-	while(p<pEnd)
-	{ *p++ = (*p1++) * f; } 
+	// double *p=mtmp.dd, *pEnd=&mtmp.dd[rc]; const double *p1=this->dd;
+	// while(p<pEnd)
+	// { *p++ = (*p1++) * f; } 
+	for(int i=0; i<rc; i++) mtmp.dd[i] = this->dd[i] * f;
 	return mtmp;
 }
 
